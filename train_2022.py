@@ -5,7 +5,7 @@ from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import classification_report
 
 # Load processed data
-df = pd.read_parquet("processed_data.parquet")  # or the path you saved
+df = pd.read_parquet(r'C:\Users\ishan\Downloads\ML Projects\AI_Legal\processed_data')  # or the path you saved
 
 X = df["text"]
 y = df["label"]
