@@ -2,3 +2,4 @@ legal_ai/
 processed_data/
 bert_results/
 saved_models/
+processed_data_cleaned.parquet
