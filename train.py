@@ -1,3 +1,5 @@
+#use this file to train from start i.e. from data processing to cleaning to training
+
 from config import config
 from data_processing.pdf_processor import PDFProcessor
 from data_processing.text_cleaner import TextCleaner
@@ -7,6 +9,9 @@ import pandas as pd
 from sklearn.model_selection import train_test_split
 import torch
 from torch.utils.data import Dataset
+from tqdm import tqdm
+tqdm.pandas()
+
 
 class LegalDataset(Dataset):
     def __init__(self, encodings, labels):

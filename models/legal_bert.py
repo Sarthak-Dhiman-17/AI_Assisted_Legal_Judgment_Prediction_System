@@ -1,7 +1,6 @@
 from transformers import AutoModelForSequenceClassification, TrainingArguments, Trainer
-import numpy as np
 import evaluate
-import torch
+import numpy as np
 
 class LegalBERTClassifier:
     def __init__(self):
@@ -23,14 +22,14 @@ class LegalBERTClassifier:
     def train(self, train_dataset, eval_dataset):
         training_args = TrainingArguments(
             output_dir="bert_results",
-            evaluation_strategy="epoch",
+            eval_strategy="epoch",  # CHANGED FROM evaluation_strategy TO eval_strategy
             learning_rate=2e-5,
             per_device_train_batch_size=8,
             per_device_eval_batch_size=8,
             num_train_epochs=3,
             weight_decay=0.01,
             logging_steps=50,
-            fp16=True  # Enable mixed precision
+            fp16=True
         )
         
         self.trainer = Trainer(
@@ -40,7 +39,6 @@ class LegalBERTClassifier:
             eval_dataset=eval_dataset,
             compute_metrics=self.compute_metrics
         )
-        
         self.trainer.train()
         
     def save(self, path):

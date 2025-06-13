@@ -1,3 +1,6 @@
+#using this file to start from parquet itself created from Use2022Data_CreateParquet.ipynb file
+#Here process starts from cleaning text then training
+
 import pandas as pd
 from config import config
 from data_processing.text_cleaner import TextCleaner
@@ -34,6 +37,7 @@ def main():
     if 'clean_text' not in df.columns:
         print("Cleaning text...")
         df['clean_text'] = df['text'].progress_apply(cleaner.clean_text)
+    df.to_parquet("processed_data_cleaned.parquet")
 
 
     # Split data
@@ -55,8 +59,15 @@ def main():
     print("Preparing BERT dataset...")
     train_encodings = cleaner.bert_preprocess(X_train.tolist())
     test_encodings = cleaner.bert_preprocess(X_test.tolist())
-    train_dataset = LegalDataset(train_encodings, y_train.map({'allowed': 0, 'dismissed': 1}))
-    test_dataset = LegalDataset(test_encodings, y_test.map({'allowed': 0, 'dismissed': 1}))
+    #train_dataset = LegalDataset(train_encodings, y_train.map({'allowed': 0, 'dismissed': 1}))
+    #test_dataset = LegalDataset(test_encodings, y_test.map({'allowed': 0, 'dismissed': 1}))
+    #train_labels = y_train.map({'allowed': 0, 'dismissed': 1}).to_numpy()  # Convert to numpy
+    #test_labels = y_test.map({'allowed': 0, 'dismissed': 1}).to_numpy()
+    train_labels = y_train.reset_index(drop=True).map({'allowed': 0, 'dismissed': 1}).to_numpy()
+    test_labels = y_test.reset_index(drop=True).map({'allowed': 0, 'dismissed': 1}).to_numpy()
+
+    train_dataset = LegalDataset(train_encodings, train_labels)
+    test_dataset = LegalDataset(test_encodings, test_labels)
 
     # Train Legal-BERT
     print("Training Legal-BERT...")

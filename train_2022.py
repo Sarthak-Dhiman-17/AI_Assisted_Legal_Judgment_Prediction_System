@@ -1,3 +1,6 @@
+#here use of simple parquet and a Single Random Forest is used 
+#achieved a good model performance using this one for small dataset
+
 import pandas as pd
 from sklearn.model_selection import train_test_split
 from sklearn.feature_extraction.text import TfidfVectorizer
@@ -5,7 +8,7 @@ from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import classification_report
 
 # Load processed data
-df = pd.read_parquet(r'C:\Users\ishan\Downloads\ML Projects\AI_Legal\processed_data')  # or the path you saved
+df = pd.read_parquet(r'C:\Users\ishan\Downloads\ML Projects\AI_Legal\processed_data\processed_data.parquet')  # or the path you saved
 
 X = df["text"]
 y = df["label"]

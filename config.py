@@ -4,7 +4,9 @@ from pathlib import Path
 # Base configuration
 class Config:
     # Raw data path (update with your actual path)
-    RAW_DATA_PATH = Path(r"C:\Users\ishan\Downloads\ML Projects\IndianLegalJudgmentDocumnet(Dataset)\supreme_court_judgments")
+    #RAW_DATA_PATH = Path(r"C:\Users\ishan\Downloads\ML Projects\IndianLegalJudgmentDocumnet(Dataset)\supreme_court_judgments")
+    RAW_DATA_PATH = Path(r"C:\Users\ishan\Downloads\ML Projects\IndianLegalJudgmentDocumnet(Dataset)\supreme_court_judgments\2022")
+
     
     # Processed data paths
     PROCESSED_DATA = Path("processed_data")

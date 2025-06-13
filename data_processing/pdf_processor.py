@@ -24,6 +24,25 @@ class PDFProcessor:
         """Process all PDFs and create labeled dataset"""
         data = []
         
+        from pathlib import Path
+
+        year_dir = Path(r"C:\Users\ishan\Downloads\ML Projects\IndianLegalJudgmentDocumnet(Dataset)\supreme_court_judgments\2022")
+        for pdf_file in year_dir.glob("*.pdf"):
+            try:
+                with fitz.open(pdf_file) as doc:
+                    text = "\n".join(page.get_text() for page in doc)
+                    outcome = self.extract_judgment_outcome(text)
+                    if outcome == 'other':
+                        continue  # Skip unclear cases
+                    data.append({
+                        "text": text,
+                        "label": outcome,
+                        "year": 2022,
+                        "source": pdf_file.name
+                    })
+            except Exception as e:
+                print(f"Error processing {pdf_file}: {e}")
+        '''
         for year_dir in config.RAW_DATA_PATH.iterdir():
             if year_dir.is_dir() and year_dir.name.isdigit():
                 for pdf_file in year_dir.glob("*.pdf"):
@@ -42,7 +61,7 @@ class PDFProcessor:
                                 "source": pdf_file.name
                             })
                     except Exception as e:
-                        print(f"Error processing {pdf_file}: {e}")
+                        print(f"Error processing {pdf_file}: {e}")'''
         
         df = pd.DataFrame(data)
         df.to_parquet(self.cache_file)
