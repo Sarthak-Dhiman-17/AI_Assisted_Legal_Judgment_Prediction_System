@@ -19,7 +19,15 @@ class PDFProcessor:
             if re.search(pattern, text, re.IGNORECASE):
                 return label
         return 'other'
-
+    
+    def extract_text_from_pdf(self, pdf_path):
+        """Extracts all text from a PDF file."""
+        doc = fitz.open(pdf_path)
+        text = ""
+        for page in doc:
+            text += page.get_text()
+        return text
+    
     def process_pdfs(self):
         """Process all PDFs and create labeled dataset"""
         data = []

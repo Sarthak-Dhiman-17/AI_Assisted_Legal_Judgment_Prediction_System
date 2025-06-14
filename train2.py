@@ -8,6 +8,7 @@ from models.baseline_model import BaselineModel
 from models.legal_bert import LegalBERTClassifier
 from sklearn.model_selection import train_test_split
 import torch
+import joblib
 from torch.utils.data import Dataset
 from tqdm.auto import tqdm
 tqdm.pandas() 
@@ -54,6 +55,8 @@ def main():
     baseline = BaselineModel()
     baseline.train(X_train, y_train)
     baseline.save(config.MODELS_DIR / "baseline_model.pkl")
+    vectorizer = baseline.model.steps[0][1]
+    joblib.dump(vectorizer, config.MODELS_DIR / "tfidf_vectorizer.pkl")  
 
     # Prepare BERT data
     print("Preparing BERT dataset...")
